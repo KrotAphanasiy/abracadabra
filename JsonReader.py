@@ -5,7 +5,8 @@ class JsonReader:
         pass
 
     def ConstructDict(self, jsonPath):
-        return json.load(jsonPath)
+        with open('vkUsers.json') as jsonFile:
+            return json.load(jsonFile)
 
 
 
