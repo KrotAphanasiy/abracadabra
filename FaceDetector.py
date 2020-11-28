@@ -27,4 +27,9 @@ class FaceDetector:
                 boundingBoxes.append(box)
 
         return boundingBoxes
+    
+    @staticmethod
+    def ExtractFace(image, boundingBox):
+        (startX, startY, endX, endY) = boundingBox
+        return image[startY:endY, startX:endX]
   
