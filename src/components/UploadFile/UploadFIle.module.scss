@@ -1,0 +1,30 @@
+.buttonUpload {
+  padding: 0;
+}
+
+.photoLabel {
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+.userPhoto {
+  margin-top: 50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.uploadContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadButton {
+  margin-top: 50px;
+}
+
+.mainTitle {
+  max-width: 1000px;
+}
