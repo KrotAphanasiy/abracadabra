@@ -16,9 +16,9 @@ class FaceNet:
         return encoding
 
 
-a = FaceNet()
+"""a = FaceNet()
 a.LoadNet()
 print("loaded model")
 image = cv2.imread("Vlad.jpg")
 emb = a.ForwardImgToEnc(image)
-print(emb)
+print(emb)"""
