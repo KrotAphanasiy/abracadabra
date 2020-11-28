@@ -12,6 +12,8 @@ class NeuroUtils:
                                          help="base64 string")
         self.argumentParser.add_argument("-j", "--json", type=str, required=True,
                                          help="path o required json")
+        self.argumentParser.add_argument("-o", "--output", required=True,
+                                         help="path to output json")
         self.args = vars(self.argumentParser.parse_args())
         self.faceDetector = FaceDetector("res10_300x300_ssd_iter_140000.caffemodel", "FaceDetDeploy.prototxt")
         self.faceDetector.LoadNet()
@@ -33,7 +35,7 @@ class NeuroUtils:
         encoding = self.faceNet.ForwardImgToEnc(face)   
         
         vkIdStr = self.FindMatch(encoding)     
-        return vkIdStr
+        return str(vkIdStr)
 
     def NewJsonBase(self, jsonPath):
         self.idsNBasesDict = self.jsonReader.ConstructDict(jsonPath=jsonPath)
