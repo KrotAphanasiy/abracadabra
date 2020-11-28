@@ -6,23 +6,22 @@ from JsonReader import JsonReader
 from numpy import linalg
 
 class NeuroUtils:
-    def __int__(self):
+    def __init__(self):
         self.argumentParser = argparse.ArgumentParser()
         self.argumentParser.add_argument('-b', "--base", type=str, required=True,
                                          help="base64 string")
-        self.argumentParser.add_argument("-j","--json", type=str, required=True,
+        self.argumentParser.add_argument("-j", "--json", type=str, required=True,
                                          help="path o required json")
         self.args = vars(self.argumentParser.parse_args())
-
         self.faceDetector = FaceDetector("res10_300x300_ssd_iter_140000.caffemodel", "FaceDetDeploy.prototxt")
         self.faceDetector.LoadNet()
-        self.faceNet = FaceNet("facenet.h")
+        self.faceNet = FaceNet()
         self.faceNet.LoadNet()
         self.imgStrConverter = Converter()
         self.jsonReader = JsonReader()
 
         self.idsNBasesDict = dict()
-        
+    
 
     def ProcessPhotoByString(self, imageStr):
         image = self.imgStrConverter.stringToRGB(imageStr)
@@ -53,10 +52,7 @@ class NeuroUtils:
         return matchId
 
 
-if __name__ == '__main__':
-    util = NeuroUtils()
-    util.NewJsonBase(util.args["json"])
-    util.ProcessPhotoByString(util.args["base"])
+
 
 
     
