@@ -3,3 +3,5 @@ Lib/
 Scripts/
 pyvenv.cfg 
 assets/cudnn64_7.dll
+__pychache__/
+SVM.py

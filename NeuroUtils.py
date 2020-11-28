@@ -21,7 +21,8 @@ class NeuroUtils:
         self.jsonReader = JsonReader()
 
         self.idsNBasesDict = dict()
-    
+
+
 
     def ProcessPhotoByString(self, imageStr):
         image = self.imgStrConverter.stringToRGB(imageStr)
@@ -50,10 +51,3 @@ class NeuroUtils:
                     matchId = item['vkId']
 
         return matchId
-
-
-
-
-
-    
-    

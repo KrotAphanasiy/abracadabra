@@ -7,5 +7,5 @@ class JsonReader:
     def ConstructDict(self, jsonPath):
         with open(jsonPath) as jsonFile:
             return json.load(jsonFile)
-
+    
 
