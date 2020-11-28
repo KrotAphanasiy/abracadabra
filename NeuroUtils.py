@@ -3,6 +3,7 @@ from FaceDetector import FaceDetector
 from FaceNet import FaceNet
 from baseToJPG import Converter
 from JsonReader import JsonReader
+from numpy import linalg
 class NeuroUtils:
     def __int__(self):
         self.argumentParser = argparse.ArgumentParser()
@@ -36,9 +37,17 @@ class NeuroUtils:
         
     def FindMatch(self, encoding):
         matchId = None
-        
-        
-        
+
+        minEncDistance = 100
+        vkId = -1
+
+        for item in self.idsNBasesDict:
+            encDistance = linalg.norm(self.imgStrConverter.stringToRGB(item['avatar']) - encoding)
+            if encDistance < minEncDistance:
+                minEncDistance = encDistance
+                vkId = item['vkId']
+            
+        matchId = vkId
         return matchId
 
 

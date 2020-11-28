@@ -5,4 +5,10 @@ class JsonReader:
         pass
 
     def ConstructDict(self, jsonPath):
-        return dict(vkId='', base64str='')
+        return json.load(jsonPath)
+
+
+
+unit = JsonReader()
+dict = unit.ConstructDict("example.json")
+print(dict)
