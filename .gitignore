@@ -1,0 +1,11 @@
+node_modules
+node_modules/
+logs
+.idea/
+.vscode/
+.env
+*.dump
+*.sql
+*.sh
+vkusers.json
+IdVk.json
