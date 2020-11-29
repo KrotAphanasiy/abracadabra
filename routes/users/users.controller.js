@@ -29,9 +29,13 @@ module.exports = {
 
     req.setTimeout(500000);
 
-    const { data: { response: { items, }, }, } = await axios(optionsVkApi);
-
-    console.info('items ', items.length);
+    const {
+      data: {
+        response: {
+          items,
+        },
+      },
+    } = await axios(optionsVkApi);
 
     try {
       const vkUsers = await Promise.all(
@@ -53,9 +57,9 @@ module.exports = {
         })
       );
 
-      const result = await query.saveVkUsers(vkUsers);
+      await query.saveVkUsers(vkUsers);
 
-      responseGenerator(res, 200, result);
+      responseGenerator(res, 200, 'ok');
     }
     catch (e) {
       console.info('e ', e);
@@ -67,8 +71,6 @@ module.exports = {
 
     const vkUsers = await query.getAllUsers();
 
-    console.info('vkUsers ', vkUsers.length);
-
     const data = JSON.stringify(vkUsers);
     await fs.writeFile('vkUsers.json', data, (err) => {
       if (err) throw err;
@@ -79,17 +81,83 @@ module.exports = {
   },
 
   async getMoreInfoAboutVkUser(req, res, next) {
-
-    const vkUsers = await query.getAllUsers();
-
-    console.info('vkUsers ', vkUsers.length);
-
-    fs.readFile('IdVK.json', (err, data) => {
+    fs.readFile('IdVK.json', async (err, data) => {
       if (err) throw err;
-      const id = JSON.parse(data);
-      console.log('id', id);
-    });
+      const { vkId = '', } = JSON.parse(data);
+      console.info('vkData ', vkId);
 
-    responseGenerator(res, 200, 'ok');
+      if (!vkId) responseGenerator(res, 404, 'User not found');
+
+      const optionVkSearch = {
+        url: 'https://api.vk.com/method/users.get?'
+          + `user_ids=${vkId}`
+          + '&fields=education,bdate,career,city'
+          + `&access_token=${ACCESS_TOKEN_VK}&v=5.126`,
+
+      };
+      const {
+        data: {
+          response = [],
+        },
+      } = await axios(optionVkSearch);
+
+      responseGenerator(res, 200, response[0]);
+    });
+  },
+
+  async runPythonScript(req, res, next) {
+    try {
+      console.info('123 ', req.body.base64);
+
+      const { base64 = '', } = req.body;
+
+      const optionPythonRequest = {
+        method: 'POST',
+        url: 'http://192.168.43.17:3002/python-script',
+        data: {
+          base64,
+        },
+
+      };
+      const { data = false, } = await axios(optionPythonRequest);
+      console.info('data', data);
+
+      if (!data) responseGenerator(res, 404, 'Пользователь не найден');
+
+      // const optionVkSearch = {
+      //   url: 'https://api.vk.com/method/users.get?'
+      //     + `user_ids=${1}`
+      //     + '&fields=education,bdate,career,city'
+      //     + `&access_token=${ACCESS_TOKEN_VK}&v=5.126`,
+      //
+      // };
+      // const {
+      //   data: {
+      //     response = [],
+      //   },
+      // } = await axios(optionVkSearch);
+      //
+      // responseGenerator(res, 200, response[0]);
+      //
+      //
+      // console.info('data ', data);
+
+      // const python = spawn('python', ['./python/findFace.py']);
+      // // collect data from script
+      // python.stdout.on('data', (data) => {
+      //   console.log('Pipe data from python script ...');
+      //   console.info('data.toString() ', data.toString());
+      // });
+      // // in close event we are sure that stream from child process is closed
+      // python.on('close', (code) => {
+      //   console.log(`child process close all stdio with code ${code}`);
+      //   // send data to browser
+      // });
+
+      // responseGenerator(res, 200, 'ok');
+    }
+    catch (e) {
+      console.info('error ', e);
+    }
   },
 };
