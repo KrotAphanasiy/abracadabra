@@ -1,8 +1,9 @@
 .mypy_cache
-nodeBack
 venv
 data_file.json
 debug.log
 ghostdriver.log
 .idea/
 __pycache__/
+nodeBack/.idea
+nodeBack/node_modules

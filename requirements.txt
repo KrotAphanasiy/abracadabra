@@ -1,0 +1,8 @@
+mypy==0.790
+mypy-extensions==0.4.3
+psycopg2==2.8.6
+selenium==3.141.0
+typed-ast==1.4.1
+typing-extensions==3.7.4.3
+urllib3==1.26.2
+xvfbwrapper==0.2.9
