@@ -8,16 +8,20 @@ from numpy import expand_dims
 from sklearn.svm import SVC
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import Normalizer
+import sys
+import numpy as np
+import json
+
+import cv2
 
 class NeuroUtils:
     def __init__(self):
-        self.argumentParser = argparse.ArgumentParser()
+        """self.argumentParser = argparse.ArgumentParser()
         self.argumentParser.add_argument('-b', "--base", type=str, required=True,
                                          help="base64 string")
-        self.argumentParser.add_argument("-o", "--output", required=True,
-                                         help="path to output json")
-        self.args = vars(self.argumentParser.parse_args())
-        self.faceDetector = FaceDetector("res10_300x300_ssd_iter_140000.caffemodel", "FaceDetDeploy.prototxt")
+        self.args = vars(self.argumentParser.parse_args())"""
+        self.imageStr = str()
+        self.faceDetector = FaceDetector("D:/PyCharmProjects/abracadabra/venv/res10_300x300_ssd_iter_140000.caffemodel", "D:/PyCharmProjects/abracadabra/venv/FaceDetDeploy.prototxt")
         self.faceDetector.LoadNet()
         self.faceNet = FaceNet()
         self.faceNet.LoadNet()
@@ -28,18 +32,20 @@ class NeuroUtils:
 
     def ProcessPhotoByString(self, imageStr):
         image = self.imgStrConverter.stringToRGB(imageStr)
+        cv2.waitKey()
         box = self.faceDetector.Detect(image)[0]
+        box = np.array(box).astype('int')
         
         face = self.faceDetector.ExtractFace(image, box)
-        
         encoding = self.faceNet.ForwardImgToEnc(face)   
         
-        vkIdStr = self.FindMatch(encoding)     
+        vkIdStr = self.FindMatch(encoding)
         return str(vkIdStr)
 
 
     def NewJsonBase(self, jsonPath):
-        self.idsNBasesDict = self.jsonReader.ConstructDict(jsonPath=jsonPath)
+        with open(jsonPath, "r") as file:
+            self.idsNBasesDict = json.load(file)
         
     def FindMatch(self, encoding):
         matchId = None
@@ -47,12 +53,18 @@ class NeuroUtils:
         minEncDistance = 100
 
         for item in self.idsNBasesDict:
-            itemEnc = self.faceNet.ForwardImgToEnc(self.imgStrConverter.stringToRGB(item['avatar']))
-            encDistance = linalg.norm(itemEnc - encoding)
-            if encDistance < minEncDistance:
-                minEncDistance = encDistance
-                if(minEncDistance < 0.3):
-                    matchId = item['vkId']
+            try:
+                itemImage = self.imgStrConverter.stringToRGB(item['avatar'])
+                box = self.faceDetector.Detect(itemImage)[0]
+                face = self.faceDetector.ExtractFace(itemImage, box)
+                itemEnc = self.faceNet.ForwardImgToEnc(face)
+                encDistance = linalg.norm(itemEnc - encoding)
+                if encDistance < minEncDistance:
+                    minEncDistance = encDistance
+                    if(minEncDistance < 0.3):
+                        matchId = item['vkId']
+            except:
+                continue
 
         return matchId
 
@@ -65,11 +77,14 @@ class NeuroUtils:
         embeddings = []
         labels = []
         for item in self.idsNBasesDict:
-            itemEnc = self.faceNet.ForwardImgToEnc(self.imgStrConverter.stringToRGB(item['avatar']))
-            embeddings.append(itemEnc)
+            try:
+                itemEnc = self.faceNet.ForwardImgToEnc(self.imgStrConverter.stringToRGB(item['avatar']))
+                embeddings.append(itemEnc)
 
-            itemLabel = item['vkId']
-            labels.append(itemLabel)
+                itemLabel = item['vkId']
+                labels.append(itemLabel)
+            except:
+                continue
 
         embeddings = inEncoder.transform(embeddings)
         outEncoder.fit(labels)

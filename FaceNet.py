@@ -9,7 +9,7 @@ class FaceNet:
         self.model = None
         
     def LoadNet(self):
-        self.model = load_model('facenet_keras.h5', compile=False)
+        self.model = load_model('D:/PyCharmProjects/abracadabra/venv/facenet_keras.h5', compile=False)
            
     def ForwardImgToEnc(self, imageNpArr):
         encoding = get_embedding(self.model, imageNpArr)
