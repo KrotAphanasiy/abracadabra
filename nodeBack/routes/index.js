@@ -5,7 +5,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  const python = spawn('python', ['../main.py']);
+  const arg1 = 1;
+  const arg2 = 2;
+  const python = spawn('python', ['../main.py'], { arg1, arg2 });
   // collect data from script
   python.stdout.on('data', (data) => {
     console.log('Pipe data from python script ...');

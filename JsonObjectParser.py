@@ -4,9 +4,9 @@ from ParZB import ParZB
 from ParPos import ParPos
 
 
-class JOPa:
+class JParsers:
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(executable_path=r"D:\Sourse\Python\bank\chromedriver.exe")
         self.eg = ParEg(self.driver)
         self.zb = ParZB(self.driver)
         self.pos = ParPos(self.driver)
