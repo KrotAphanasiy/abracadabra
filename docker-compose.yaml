@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  front:
+    container_name: front
+    build:
+      context: .
+    ports:
+    - 8080:80

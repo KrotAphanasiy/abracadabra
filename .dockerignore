@@ -1,0 +1,9 @@
+*
+
+!docker
+!public
+!src
+!vendor
+!.npmrc
+!package*.json
+!README.md

@@ -9,11 +9,15 @@
   height: 200px;
   pointer-events: none;
   border-radius: 50%;
+  animation: pulse-animation 1s infinite;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(39, 110, 28, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 15px rgba(0, 0, 0, 0);
   }
 }
 

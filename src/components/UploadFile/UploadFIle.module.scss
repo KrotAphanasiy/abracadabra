@@ -28,3 +28,16 @@
 .mainTitle {
   max-width: 1000px;
 }
+
+
+.fieldNameWrapper {
+  display: flex;
+
+  p {
+    padding: 10px;
+  }
+}
+
+.loaderWrapper {
+  min-height: 300px;
+}
