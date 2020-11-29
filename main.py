@@ -6,7 +6,6 @@ import os
 
 if __name__ == "__main__":
     JParsers: JParsers = JParsers()
-    print(sys.argv[1], sys.argv[2])
     d = JParsers.find(sys.argv[1], sys.argv[2])
     with open("data_file.json", "w") as write_file:
         json.dump(d, write_file, indent=4)
