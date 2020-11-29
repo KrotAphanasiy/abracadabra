@@ -1,0 +1,8 @@
+.mypy_cache
+nodeBack
+venv
+data_file.json
+debug.log
+ghostdriver.log
+.idea/
+__pycache__/
