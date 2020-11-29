@@ -14,8 +14,6 @@ class NeuroUtils:
         self.argumentParser = argparse.ArgumentParser()
         self.argumentParser.add_argument('-b', "--base", type=str, required=True,
                                          help="base64 string")
-        self.argumentParser.add_argument("-j", "--json", type=str, required=True,
-                                         help="path o required json")
         self.argumentParser.add_argument("-o", "--output", required=True,
                                          help="path to output json")
         self.args = vars(self.argumentParser.parse_args())
@@ -78,6 +76,8 @@ class NeuroUtils:
         labels = outEncoder.transform(labels)
         svc = SVC(kernel='linear', probability=True)
         svc.fit(embeddings, labels)
+
+
 
         toPredictOn = expand_dims(encoding, axis=0)
         yhatClass = svc.predict(toPredictOn)
