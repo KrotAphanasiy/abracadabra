@@ -18,6 +18,10 @@ class ParPos(Parser):
                                 num=a.find_element_by_class_name('registry-entry__header-mid__number')\
                                 .find_element_by_tag_name('a').text,
                                 inn=a.find_elements_by_class_name('registry-entry__body-value')[1].text))
+            for a in res:
+                print(a)
+            print("\n")
+            print("############################################")
         finally:
             if res:
                 return res

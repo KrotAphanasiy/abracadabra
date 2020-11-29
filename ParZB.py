@@ -21,6 +21,10 @@ class ParZB(Parser):
                                 name=td[3].text,
                                 date=td[4].text,
                                 adr=td[5].text))
+            for a in res:
+                print(a)
+            print("\n")
+            print("############################################")
         finally:
             if res:
                 return res

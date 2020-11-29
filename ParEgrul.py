@@ -15,6 +15,10 @@ class ParEg(Parser):
             for a in els:
                 res.append(dict(name=a.find_element_by_class_name('op-excerpt').text,
                                 text=a.find_element_by_class_name('res-text').text))
+            for a in res:
+                print(a)
+            print("\n")
+            print("############################################")
         finally:
             if res:
                 return res
